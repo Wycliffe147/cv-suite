@@ -1,0 +1,32 @@
+# Virtual environments
+cv-env/
+venv/
+.venv/
+env/
+
+# Python cache & bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Binary models (downloaded on demand)
+data/models/*.task
+data/models/*.onnx
+
+# User personal data & biometrics
+data/face_db/*.db
+data/logs/*.db
+data/snapshots/*.jpg
+data/snapshots/*.png
+
+# Local system configuration & secrets
+.env
+*.local.toml
+
+# IDE / Editor configs
+.vscode/
+.idea/
+*.swp
+*~

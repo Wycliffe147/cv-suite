@@ -1,0 +1,35 @@
+# cv-suite — Global Configuration
+# All projects read from this file via core.config
+
+[camera]
+device = 0          # /dev/video0  (change to 2 if using IR sensor)
+width = 640
+height = 480
+
+[sampling]
+ac_interval = 1.0   # seconds between polls when plugged in (AC)
+dc_interval = 4.0   # seconds between polls on battery (DC)
+
+[face]
+max_faces = 4
+min_detection_confidence = 0.6
+min_presence_confidence = 0.6
+min_tracking_confidence = 0.6
+
+[head_pose]
+# Ergonomic desk thresholds (degrees)
+# Accommodates wide displays and natural downward gaze (reading/typing)
+yaw_threshold = 45.0          # left / right head turn (allows scanning wide monitors)
+pitch_up_threshold = 25.0     # looking above the monitor
+pitch_down_threshold = 40.0   # natural downward tilt when reading code / looking at keyboard
+
+[media_controller]
+# Mode: "presence" (pause when stepping away from desk) or "gaze" (pause when looking away)
+mode = "presence"
+pause_delay = 3.0
+dim_delay = 60.0
+dim_to = 10
+
+[models]
+# Path is relative to the project root (cv-suite/)
+face_landmarker = "data/models/face_landmarker.task"

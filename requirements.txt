@@ -1,0 +1,26 @@
+# cv-suite — Python dependencies
+# Install inside a venv:
+#   python -m venv cv-env && source cv-env/bin/activate
+#   pip install -r requirements.txt
+
+# --- Core vision stack ---
+opencv-python       # camera capture, solvePnP, image ops
+mediapipe==0.10.35  # Tasks API — FaceLandmarker, HandLandmarker
+                    # NOTE: 1.x+ has a memory spike bug on initialization; stay on 0.10.35
+
+# --- Face identity (Phases 4 & 5) ---
+deepface            # ArcFace embeddings + cosine similarity
+# insightface       # alternative — uncomment if you prefer InsightFace
+
+# --- Input / system control ---
+pynput              # keyboard & mouse events (gesture control)
+pyvirtualcam        # write frames to v4l2loopback virtual camera
+
+# --- Power & system info ---
+psutil              # AC/DC detection, CPU/RAM stats
+
+# --- Text-to-speech (Phase 5) ---
+# pyttsx3           # Windows fallback — uncomment on Windows
+
+# --- Utilities ---
+numpy               # array ops (already pulled in by opencv/mediapipe)
