@@ -30,6 +30,27 @@ pause_delay = 3.0
 dim_delay = 60.0
 dim_to = 10
 
+[daemon]
+# Background features to run automatically
+enable_media_controller = true
+enable_privacy_guard = true
+enable_desk_assistant = true
+enable_truefocus = true
+
+[privacy_guard]
+level1_delay = 1.5
+level2_delay = 4.0
+threshold = 0.42
+
+[desk_assistant]
+cooldown_min = 30.0
+visitor_cooldown_min = 5.0
+
+[truefocus]
+pomodoro_min = 50.0
+away_reset_min = 5.0
+eye_strain_min = 20.0
+
 [models]
 # Path is relative to the project root (cv-suite/)
 face_landmarker = "data/models/face_landmarker.task"

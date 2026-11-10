@@ -44,21 +44,29 @@ class ThreatDetector:
         self.level2_triggered: bool = False
         self.last_snapshot_time: float = 0.0
 
-    def evaluate(self, frame: np.ndarray) -> ThreatReport:
+    def evaluate(
+        self,
+        frame: np.ndarray,
+        recognized_names: Optional[List[str]] = None,
+        unknown_count: Optional[int] = None,
+    ) -> ThreatReport:
         now = time.monotonic()
-        faces = self.recognizer.extract_faces(frame)
 
-        recognized_names = []
-        unknown_count = 0
+        # If not pre-computed by a unified engine, compute here
+        if recognized_names is None or unknown_count is None:
+            faces = self.recognizer.extract_faces(frame)
+            recognized_names = []
+            unknown_count = 0
+            for _, feature in faces:
+                name, score = self.recognizer.identify(feature)
+                if name is not None:
+                    recognized_names.append(name)
+                else:
+                    unknown_count += 1
+            total_faces = len(faces)
+        else:
+            total_faces = len(recognized_names) + unknown_count
 
-        for _, feature in faces:
-            name, score = self.recognizer.identify(feature)
-            if name is not None:
-                recognized_names.append(name)
-            else:
-                unknown_count += 1
-
-        total_faces = len(faces)
         action_taken = None
         level = 0
 

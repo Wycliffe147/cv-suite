@@ -43,27 +43,34 @@ class DeskGreeter:
         self.last_greeted: Dict[str, float] = {}
         self.last_visitor_alert: float = 0.0
 
-    def process_frame(self, frame: np.ndarray) -> List[str]:
+    def process_frame(
+        self,
+        frame: np.ndarray,
+        recognized_names: Optional[List[str]] = None,
+        has_unknown: Optional[bool] = None,
+    ) -> List[str]:
         """
         Evaluate frame, determine if any greeting or visitor announcement should be triggered.
         Returns a list of actions/announcements performed.
         """
         now = time.monotonic()
-        faces = self.recognizer.extract_faces(frame)
         actions_taken = []
 
-        if not faces:
+        if recognized_names is None or has_unknown is None:
+            faces = self.recognizer.extract_faces(frame)
+            if not faces:
+                return actions_taken
+
+            recognized_names = []
+            has_unknown = False
+            for _, feature in faces:
+                name, _ = self.recognizer.identify(feature)
+                if name is not None:
+                    recognized_names.append(name)
+                else:
+                    has_unknown = True
+        elif not recognized_names and not has_unknown:
             return actions_taken
-
-        recognized_names = []
-        has_unknown = False
-
-        for _, feature in faces:
-            name, _ = self.recognizer.identify(feature)
-            if name is not None:
-                recognized_names.append(name)
-            else:
-                has_unknown = True
 
         # 1. Greet recognized contacts
         for name in recognized_names:
